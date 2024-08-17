@@ -1,3 +1,4 @@
+using Cassandra.Mapping;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -5,7 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.Reflection;
 using System.Text.Json.Serialization;
 using UserService.Configuration;
+using UserService.Contracts.Providers;
 using UserService.Contracts.Services;
+using UserService.Infrastructure;
+using UserService.Infrastructure.Extensions;
+using UserService.Infrastructure.Provider;
 using UserServiceImplementation = UserService.Infrastructure.Services.UserService;
 
 var AllowAllOrigins = "_AllowAllOrigins";
@@ -56,7 +61,9 @@ builder.Services
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.Configure<FirebaseAuthClientConfig>(builder.Configuration.GetSection("FirebaseAuthClientConfig"));
+builder.Services.Configure<DatabaseConfig>(builder.Configuration.GetSection("DatabaseConfig"));
 
+builder.Services.AddSingleton<IDatabaseSessionProvider, DatabaseSessionProvider>();
 // Firebase admin app is only needed for user service
 builder.Services.AddSingleton(FirebaseApp.Create(new AppOptions()
 {
@@ -105,5 +112,9 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.MapDefaultControllerRoute();
+
+MappingConfiguration.Global.Define<DbMappingProfile>();
+
+app.Migrate();
 
 app.Run();
