@@ -5,7 +5,7 @@ using System.Security.Claims;
 using UserService.Contracts.Constants;
 using UserService.Contracts.Data;
 using UserService.Contracts.Services;
-using UserService.Controllers.Auth.Requests;
+using UserService.Controllers._Common.Request;
 using UserService.Controllers.User.Responses;
 
 namespace UserService.Controllers.Auth;
@@ -27,7 +27,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("signup/guest", Name = nameof(SignupGuest))]
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> SignupGuest([FromBody] UserSignupRequest request)
+    public async Task<IActionResult> SignupGuest([FromBody] UserRequest request)
     {
         var userInput = GetUserSignupInput(request, true);
 
@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
 
     [HttpPost("signup/host", Name = nameof(SignupHost))]
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> SignupHost([FromBody] UserSignupRequest request)
+    public async Task<IActionResult> SignupHost([FromBody] UserRequest request)
     {
         var userInput = GetUserSignupInput(request, false);
 
@@ -45,7 +45,7 @@ public class AuthController : ControllerBase
         return Ok(mapper.Map<UserResponse>(user));
     }
 
-    private UserSignupInput GetUserSignupInput(UserSignupRequest request, bool isGuest)
+    private UserSignupInput GetUserSignupInput(UserRequest request, bool isGuest)
     {
         var userInput = mapper.Map<UserSignupInput>(request);
         userInput.FirebaseId = HttpContext.User.FindFirstValue(CustomClaims.FirebaseId) ?? throw new Exception("Email not found");

@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\User\Requests\" />
+    <Folder Include="Controllers\Auth\Requests\" />
   </ItemGroup>
 
 </Project>
