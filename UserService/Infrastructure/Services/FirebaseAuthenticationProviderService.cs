@@ -15,6 +15,13 @@ public class FirebaseAuthenticationProviderService : IAuthenticationProviderServ
         this.firebaseApp = firebaseApp;
     }
 
+    public async Task DeleteProvidedUserAsync(User user)
+    {
+        var firebaseAuth = FirebaseAuth.GetAuth(firebaseApp);
+
+        await firebaseAuth.DeleteUserAsync(user.FirebaseId);
+    }
+
     public async Task UpdateClaimsAsync(User user)
     {
         var firebaseAuth = FirebaseAuth.GetAuth(firebaseApp);
