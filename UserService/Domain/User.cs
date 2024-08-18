@@ -6,7 +6,17 @@ public class User : Entity, IEntity
 {
     public User() : base() { }
 
-    public User(string username, string firstName, string lastName, string email, string country, string city, string postCode, string street, string houseNumber) : base()
+    public User(
+        string username,
+        string firstName,
+        string lastName,
+        string email,
+        string country,
+        string city,
+        string postCode,
+        string street,
+        string houseNumber,
+        bool isGuest) : base()
     {
         Username = username;
         FirstName = firstName;
@@ -17,8 +27,10 @@ public class User : Entity, IEntity
         PostCode = postCode;
         Street = street;
         HouseNumber = houseNumber;
+        IsGuest = isGuest;
     }
 
+    public string FirebaseId { get; set; }
     public string Username { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
@@ -28,4 +40,5 @@ public class User : Entity, IEntity
     public string PostCode { get; set; }
     public string Street { get; set; }
     public string HouseNumber { get; set; }
+    public bool IsGuest { get; set; }
 }

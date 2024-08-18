@@ -1,29 +1,20 @@
-﻿using UserService.Contracts.Services;
+﻿using UserService.Contracts.Providers;
+using UserService.Contracts.Services;
 using UserService.Domain;
 
 namespace UserService.Infrastructure.Services;
 
 public class UserService : IUserService
 {
-    public UserService()
-    {
+    private readonly IUserProvider userProvider;
 
+    public UserService(IUserProvider userProvider)
+    {
+        this.userProvider = userProvider;
     }
 
-    public async Task<User> ReadMockUser()
+    public async Task<User> GetMeAsync()
     {
-        return new User
-        {
-            Id = Guid.NewGuid(),
-            Username = "test123",
-            FirstName = "Test",
-            LastName = "Last",
-            Email = "test@test.com",
-            Country = "US",
-            City = "MockUpCity",
-            Street = "Main Street",
-            HouseNumber = "1",
-            PostCode = "21000"
-        };
+        return await userProvider.GetMeAsync();
     }
 }
