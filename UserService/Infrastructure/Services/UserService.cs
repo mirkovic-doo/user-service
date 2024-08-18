@@ -57,4 +57,11 @@ public class UserService : IUserService
 
         return user;
     }
+
+    public async Task<string> GetUserEmailByUsernameAsync(string username)
+    {
+        var user = await userRepository.GetByUsernameAsync(username);
+
+        return user?.Email ?? string.Empty;
+    }
 }
