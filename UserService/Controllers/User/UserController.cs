@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserService.Contracts.Data;
 using UserService.Contracts.Services;
+using UserService.Controllers._Common.Request;
 using UserService.Controllers.User.Responses;
 
 namespace UserService.Controllers.User;
@@ -28,6 +30,16 @@ public class UserController : ControllerBase
     public async Task<IActionResult> GetMe()
     {
         return Ok(mapper.Map<UserResponse>(await userService.GetMeAsync()));
+    }
+
+    [HttpPut(Name = nameof(UpdateUser))]
+    [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> UpdateUser([FromBody] UserRequest request)
+    {
+        var updateInput = mapper.Map<UserInput>(request);
+        var user = await userService.UpdateAsync(updateInput);
+
+        return Ok(mapper.Map<UserResponse>(user));
     }
 
     [HttpDelete(Name = nameof(DeleteUser))]

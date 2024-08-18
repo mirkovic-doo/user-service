@@ -1,6 +1,6 @@
-﻿namespace UserService.Controllers.Auth.Requests;
+﻿namespace UserService.Controllers._Common.Request;
 
-public record UserSignupRequest
+public record UserRequest
 {
     public required string Username { get; set; }
     public required string FirstName { get; set; }

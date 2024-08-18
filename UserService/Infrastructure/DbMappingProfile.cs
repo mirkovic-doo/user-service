@@ -11,8 +11,6 @@ public class DbMappingProfile : Mappings
                 .TableName("users")
                 .PartitionKey(u => u.Id)
                 .ClusteringKey(u => u.FirebaseId)
-                .ClusteringKey(u => u.Username)
-                .ClusteringKey(u => u.Email)
                 .Column(u => u.Id, cm => cm.WithName("id"))
                 .Column(u => u.FirebaseId, cm => cm.WithName("firebase_id"))
                 .Column(u => u.Username, cm => cm.WithName("username"))

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using UserService.Contracts.Data;
-using UserService.Controllers.Auth.Requests;
+using UserService.Controllers._Common.Request;
 using UserService.Controllers.User.Responses;
 using UserService.Domain;
 
@@ -12,6 +12,8 @@ public class UserProfile : Profile
     {
         CreateMap<User, UserResponse>();
         CreateMap<UserSignupInput, User>();
-        CreateMap<UserSignupRequest, UserSignupInput>();
+        CreateMap<UserRequest, UserSignupInput>();
+        CreateMap<UserRequest, UserInput>();
+        CreateMap<UserInput, User>();
     }
 }
