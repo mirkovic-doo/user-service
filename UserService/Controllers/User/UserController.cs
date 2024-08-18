@@ -29,4 +29,12 @@ public class UserController : ControllerBase
     {
         return Ok(mapper.Map<UserResponse>(await userService.GetMeAsync()));
     }
+
+    [HttpDelete(Name = nameof(DeleteUser))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<IActionResult> DeleteUser()
+    {
+        await userService.DeleteAsync();
+        return Ok("User deleted successfully");
+    }
 }

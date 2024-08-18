@@ -5,4 +5,5 @@ namespace UserService.Contracts.Services;
 public interface IUserService
 {
     Task<User> GetMeAsync();
+    Task DeleteAsync();
 }
