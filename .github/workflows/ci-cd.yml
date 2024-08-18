@@ -11,18 +11,25 @@ on:
       - main
   workflow_dispatch:
 
+env:
+  working-directory: ./UserService
+  
 jobs:
+  
   build:
     runs-on: ubuntu-latest
+    
+    defaults:
+      run:
+        working-directory: ${{ env.working-directory }}
 
     steps:
+      - run: pwd
       - uses: actions/checkout@v4
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.0.x'
-      - name: Move to service folder
-        run: cd UserService
       - name: Install dependencies
         run: dotnet restore
       - name: Build

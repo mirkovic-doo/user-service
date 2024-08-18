@@ -398,3 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 UserService/appsettings.Development.json
 /UserService/secrets
+/UserService/.idea/*
+*.DS_STORE
