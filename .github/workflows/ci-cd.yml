@@ -12,20 +12,19 @@ on:
   workflow_dispatch:
 
 env:
-  working-directory: UserService
+  working-directory: /UserService
   
 jobs:
   
   build:
     runs-on: ubuntu-latest
-    
     defaults:
       run:
         working-directory: ${{ env.working-directory }}
 
     steps:
-      - run: pwd
       - uses: actions/checkout@v4
+      - run: pwd
       - name: Setup dotnet
         uses: actions/setup-dotnet@v3
         with:
@@ -39,8 +38,8 @@ jobs:
         
   sonarcloud:
     name: Sonarcloud analysis
-    
     runs-on: windows-latest
+    needs: build
     
     steps:
       - name: Set up JDK 17
