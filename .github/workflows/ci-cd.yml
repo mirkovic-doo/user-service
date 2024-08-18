@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
 
 env:
-  working-directory: ./UserService
+  working-directory: UserService
   
 jobs:
   
