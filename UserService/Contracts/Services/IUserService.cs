@@ -4,5 +4,5 @@ namespace UserService.Contracts.Services;
 
 public interface IUserService
 {
-    Task<User> ReadMockUser();
+    Task<User> GetMeAsync();
 }

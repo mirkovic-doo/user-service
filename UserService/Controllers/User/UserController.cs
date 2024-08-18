@@ -23,10 +23,10 @@ public class UserController : ControllerBase
         this.userService = userService;
     }
 
-    [HttpGet]
+    [HttpGet("me", Name = nameof(GetMe))]
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
-    public async Task<IActionResult> Ping()
+    public async Task<IActionResult> GetMe()
     {
-        return Ok(mapper.Map<UserResponse>(await userService.ReadMockUser()));
+        return Ok(mapper.Map<UserResponse>(await userService.GetMeAsync()));
     }
 }

@@ -7,10 +7,13 @@ using System.Reflection;
 using System.Text.Json.Serialization;
 using UserService.Configuration;
 using UserService.Contracts.Providers;
+using UserService.Contracts.Repositories;
 using UserService.Contracts.Services;
 using UserService.Infrastructure;
 using UserService.Infrastructure.Extensions;
 using UserService.Infrastructure.Provider;
+using UserService.Infrastructure.Repositories;
+using UserService.Infrastructure.Services;
 using UserServiceImplementation = UserService.Infrastructure.Services.UserService;
 
 var AllowAllOrigins = "_AllowAllOrigins";
@@ -63,7 +66,6 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.Configure<FirebaseAuthClientConfig>(builder.Configuration.GetSection("FirebaseAuthClientConfig"));
 builder.Services.Configure<DatabaseConfig>(builder.Configuration.GetSection("DatabaseConfig"));
 
-builder.Services.AddSingleton<IDatabaseSessionProvider, DatabaseSessionProvider>();
 // Firebase admin app is only needed for user service
 builder.Services.AddSingleton(FirebaseApp.Create(new AppOptions()
 {
@@ -81,7 +83,14 @@ builder.Services.AddRouting(options =>
     options.LowercaseQueryStrings = true;
 });
 
+builder.Services.AddSingleton<IDatabaseSessionProvider, DatabaseSessionProvider>();
+builder.Services.AddScoped<IUserProvider, UserProvider>();
+
 builder.Services.AddScoped<IUserService, UserServiceImplementation>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddScoped<IAuthenticationProviderService, FirebaseAuthenticationProviderService>();
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 var app = builder.Build();
 
