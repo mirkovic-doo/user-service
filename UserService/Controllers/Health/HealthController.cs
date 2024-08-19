@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UserService.Controllers.Health;
 
-[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class HealthController : ControllerBase
