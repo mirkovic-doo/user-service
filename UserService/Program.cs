@@ -127,3 +127,5 @@ MappingConfiguration.Global.Define<DbMappingProfile>();
 app.Migrate();
 
 app.Run();
+
+public partial class Program { }
