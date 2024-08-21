@@ -1,10 +1,10 @@
+using System.Reflection;
+using System.Text.Json.Serialization;
 using Cassandra.Mapping;
 using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using System.Reflection;
-using System.Text.Json.Serialization;
 using UserService.Configuration;
 using UserService.Contracts.Providers;
 using UserService.Contracts.Repositories;
@@ -76,6 +76,11 @@ builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+if (!string.IsNullOrWhiteSpace(builder.Configuration.GetSection("ElasticApm").GetValue<string>("ServerCert")))
+{
+    builder.Services.AddElasticApm();
+}
 
 builder.Services.AddRouting(options =>
 {
