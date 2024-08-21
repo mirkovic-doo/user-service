@@ -51,6 +51,11 @@ public class UserService : IUserService
             throw new Exception("Email already exists");
         }
 
+        if (user.Email != updateInput.Email)
+        {
+            await authenticationProviderService.UpdateEmailAsync(user, updateInput.Email);
+        }
+
         mapper.Map(updateInput, user);
 
         await userRepository.UpdateAsync(user);
