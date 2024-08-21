@@ -44,11 +44,11 @@ public class UserService : IUserService
     {
         var user = await userProvider.GetMeAsync();
 
-        var userWithUsername = await userRepository.GetByUsernameAsync(updateInput.Username);
+        var userWithEmail = await userRepository.GetByEmailAsync(updateInput.Email);
 
-        if (userWithUsername != null && userWithUsername.Id != user.Id)
+        if (userWithEmail != null && userWithEmail.Id != user.Id)
         {
-            throw new Exception("Username already exists");
+            throw new Exception("Email already exists");
         }
 
         mapper.Map(updateInput, user);
@@ -56,12 +56,5 @@ public class UserService : IUserService
         await userRepository.UpdateAsync(user);
 
         return user;
-    }
-
-    public async Task<string> GetUserEmailByUsernameAsync(string username)
-    {
-        var user = await userRepository.GetByUsernameAsync(username);
-
-        return user?.Email ?? string.Empty;
     }
 }

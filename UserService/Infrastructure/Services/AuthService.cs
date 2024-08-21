@@ -36,13 +36,6 @@ public class AuthService : IAuthService
             return existingUser;
         }
 
-        var userWithUsername = await userRepository.GetByUsernameAsync(input.Username);
-
-        if (userWithUsername != null && userWithUsername.FirebaseId != input.FirebaseId)
-        {
-            throw new Exception("Username already exists");
-        }
-
         var user = mapper.Map<User>(input);
         user.Id = Guid.NewGuid();
 
