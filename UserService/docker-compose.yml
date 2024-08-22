@@ -1,20 +1,23 @@
 ﻿services:
-  app:
+  user:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-    networks:
-      - app-network
-    restart: no
+    restart: unless-stopped
     healthcheck:
-      test: [ "CMD", "curl -f http://localhost:8080/health || exit 1" ]
+      test: [ "CMD", "curl -f http://localhost:8080/api/health || exit 1" ]
       interval: 30s
       retries: 3
       start_period: 30s
       timeout: 10s
+    volumes:
+      - ../../ELK-stack/secrets/certs:/app/certs
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
 
 networks:
-  app-network: 
-    driver: bridge
+  default:
+    name: bukiteasy
+    external: true
