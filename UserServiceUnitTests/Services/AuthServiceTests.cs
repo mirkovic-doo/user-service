@@ -46,7 +46,8 @@ public class AuthServiceTests
     {
         var firebaseId = "firebaseId";
 
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false)
+        var userToReturn = new User("firstName", "lastName", "email", "country", "city", "postCode", "street",
+            "houseNumber", false)
         {
             Id = Guid.NewGuid()
         };
@@ -54,7 +55,6 @@ public class AuthServiceTests
         var input = new UserSignupInput
         {
             FirebaseId = firebaseId,
-            Username = "username_updated",
             FirstName = "firstName_updated",
             LastName = "lastName_updated",
             Country = "country_updated",
@@ -87,7 +87,6 @@ public class AuthServiceTests
         var input = new UserSignupInput
         {
             FirebaseId = firebaseId,
-            Username = "username",
             Email = "email",
             FirstName = "firstName",
             LastName = "lastName",
@@ -100,7 +99,8 @@ public class AuthServiceTests
         };
 
 
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", true);
+        var userToReturn = new User("firstName", "lastName", "email", "country", "city", "postCode", "street",
+            "houseNumber", true);
 
         mapperMock
             .Setup(x => x.Map<User>(input))
@@ -127,7 +127,6 @@ public class AuthServiceTests
         var input = new UserSignupInput
         {
             FirebaseId = firebaseId,
-            Username = "username",
             Email = "email",
             FirstName = "firstName",
             LastName = "lastName",
@@ -139,36 +138,10 @@ public class AuthServiceTests
             IsGuest = true,
         };
 
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false);
+        var userToReturn = new User("firstName", "lastName", "email", "country", "city", "postCode", "street",
+            "houseNumber", false);
 
         userRepositoryMock.Setup(x => x.GetByFirebaseIdAsync(firebaseId)).ReturnsAsync(userToReturn);
-
-        await Assert.ThrowsExceptionAsync<Exception>(() => authService.SignupAsync(input));
-    }
-
-    [TestMethod]
-    public async Task SignupAsync_UsernameAlreadyExists_ThrowsException()
-    {
-        var firebaseId = "firebaseId";
-
-        var input = new UserSignupInput
-        {
-            FirebaseId = firebaseId,
-            Username = "username",
-            Email = "email",
-            FirstName = "firstName",
-            LastName = "lastName",
-            Country = "country",
-            City = "city",
-            PostCode = "postCode",
-            Street = "street",
-            HouseNumber = "houseNumber",
-            IsGuest = true,
-        };
-
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", true);
-
-        userRepositoryMock.Setup(x => x.GetByUsernameAsync(input.Username)).ReturnsAsync(userToReturn);
 
         await Assert.ThrowsExceptionAsync<Exception>(() => authService.SignupAsync(input));
     }
