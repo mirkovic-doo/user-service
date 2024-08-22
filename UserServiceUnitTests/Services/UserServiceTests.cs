@@ -25,7 +25,8 @@ public class UserServiceTests
         userRepositoryMock = new Mock<IUserRepository>();
         authenticationProviderServiceMock = new Mock<IAuthenticationProviderService>();
 
-        userService = new UserServiceImplementation(mapperMock.Object, userProviderMock.Object, userRepositoryMock.Object, authenticationProviderServiceMock.Object);
+        userService = new UserServiceImplementation(mapperMock.Object, userProviderMock.Object,
+            userRepositoryMock.Object, authenticationProviderServiceMock.Object);
     }
 
     [TestInitialize]
@@ -36,13 +37,15 @@ public class UserServiceTests
         userRepositoryMock = new Mock<IUserRepository>();
         authenticationProviderServiceMock = new Mock<IAuthenticationProviderService>();
 
-        userService = new UserServiceImplementation(mapperMock.Object, userProviderMock.Object, userRepositoryMock.Object, authenticationProviderServiceMock.Object);
+        userService = new UserServiceImplementation(mapperMock.Object, userProviderMock.Object,
+            userRepositoryMock.Object, authenticationProviderServiceMock.Object);
     }
 
     [TestMethod]
     public async Task GetMeAsync_UserProviderValidReturn_ReturnsUser()
     {
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false);
+        var userToReturn = new User("firstName", "lastName", "email", "country", "city", "postCode", "street",
+            "houseNumber", false);
 
         userProviderMock
             .Setup(x => x.GetMeAsync())
@@ -50,7 +53,6 @@ public class UserServiceTests
 
         var getMeResult = await userService.GetMeAsync();
 
-        Assert.AreEqual(userToReturn.Username, getMeResult.Username);
         Assert.AreEqual(userToReturn.FirstName, getMeResult.FirstName);
         Assert.AreEqual(userToReturn.LastName, getMeResult.LastName);
         Assert.AreEqual(userToReturn.Email, getMeResult.Email);
@@ -75,7 +77,8 @@ public class UserServiceTests
     [TestMethod]
     public async Task DeleteAsync_Valid_CallsMethodsOnce()
     {
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false);
+        var userToReturn = new User("firstName", "lastName", "email", "country", "city", "postCode", "street",
+            "houseNumber", false);
 
         userProviderMock
             .Setup(x => x.GetMeAsync())
@@ -92,7 +95,6 @@ public class UserServiceTests
     {
         var userInput = new UserInput
         {
-            Username = "username_updated",
             FirstName = "firstName_updated",
             LastName = "lastName_updated",
             Country = "country_updated",
@@ -102,7 +104,8 @@ public class UserServiceTests
             HouseNumber = "houseNumber_updated"
         };
 
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false);
+        var userToReturn = new User("firstName", "lastName", "email", "country", "city", "postCode", "street",
+            "houseNumber", false);
 
         userProviderMock
             .Setup(x => x.GetMeAsync())
@@ -112,7 +115,6 @@ public class UserServiceTests
             .Setup(x => x.Map(userInput, userToReturn))
             .Callback((UserInput input, User user) =>
             {
-                user.Username = input.Username;
                 user.FirstName = input.FirstName;
                 user.LastName = input.LastName;
                 user.Country = input.Country;
@@ -125,7 +127,6 @@ public class UserServiceTests
 
         var updateResult = await userService.UpdateAsync(userInput);
 
-        Assert.AreEqual(userInput.Username, updateResult.Username);
         Assert.AreEqual(userInput.FirstName, updateResult.FirstName);
         Assert.AreEqual(userInput.LastName, updateResult.LastName);
         Assert.AreEqual(userToReturn.Email, updateResult.Email);
@@ -138,11 +139,10 @@ public class UserServiceTests
     }
 
     [TestMethod]
-    public async Task UpdateAsync_UsernameAlreadyExists_ThrowsException()
+    public async Task UpdateAsync_EmailAlreadyExists_ThrowsException()
     {
         var userInput = new UserInput
         {
-            Username = "username_updated",
             FirstName = "firstName_updated",
             LastName = "lastName_updated",
             Country = "country_updated",
@@ -152,12 +152,14 @@ public class UserServiceTests
             HouseNumber = "houseNumber_updated"
         };
 
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false)
+        var userToReturn = new User(
+            "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false)
         {
             Id = Guid.NewGuid()
         };
 
-        var userWithUsername = new User("username_updated", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false)
+        var userWithUsername = new User("firstName", "lastName", "email", "country", "city", "postCode", "street",
+            "houseNumber", false)
         {
             Id = Guid.NewGuid()
         };
@@ -167,20 +169,19 @@ public class UserServiceTests
             .ReturnsAsync(userToReturn);
 
         userRepositoryMock
-            .Setup(x => x.GetByUsernameAsync(userInput.Username))
+            .Setup(x => x.GetByEmailAsync(userInput.Email))
             .ReturnsAsync(userWithUsername);
 
         await Assert.ThrowsExceptionAsync<Exception>(() => userService.UpdateAsync(userInput));
     }
 
     [TestMethod]
-    public async Task UpdateAsync_ValidInputSameUsernameSameUser_ReturnsUpdatedUser()
+    public async Task UpdateAsync_ValidInputSameEmailSameUser_ReturnsUpdatedUser()
     {
         var sameId = Guid.NewGuid();
 
         var userInput = new UserInput
         {
-            Username = "username_updated",
             FirstName = "firstName_updated",
             LastName = "lastName_updated",
             Country = "country_updated",
@@ -190,12 +191,14 @@ public class UserServiceTests
             HouseNumber = "houseNumber_updated"
         };
 
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false)
+        var userToReturn = new User("firstName", "lastName", "email", "country", "city", "postCode", "street",
+            "houseNumber", false)
         {
             Id = sameId
         };
 
-        var userWithUsername = new User("username_updated", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false)
+        var userWithEmail = new User("firstName", "lastName", "email", "country", "city", "postCode", "street",
+            "houseNumber", false)
         {
             Id = sameId
         };
@@ -205,27 +208,25 @@ public class UserServiceTests
             .ReturnsAsync(userToReturn);
 
         userRepositoryMock
-            .Setup(x => x.GetByUsernameAsync(userInput.Username))
-            .ReturnsAsync(userWithUsername);
+            .Setup(x => x.GetByEmailAsync(userInput.Email))
+            .ReturnsAsync(userWithEmail);
 
         mapperMock
-         .Setup(x => x.Map(userInput, userToReturn))
-         .Callback((UserInput input, User user) =>
-         {
-             user.Username = input.Username;
-             user.FirstName = input.FirstName;
-             user.LastName = input.LastName;
-             user.Country = input.Country;
-             user.City = input.City;
-             user.PostCode = input.PostCode;
-             user.Street = input.Street;
-             user.HouseNumber = input.HouseNumber;
-             user.IsGuest = false;
-         });
+            .Setup(x => x.Map(userInput, userToReturn))
+            .Callback((UserInput input, User user) =>
+            {
+                user.FirstName = input.FirstName;
+                user.LastName = input.LastName;
+                user.Country = input.Country;
+                user.City = input.City;
+                user.PostCode = input.PostCode;
+                user.Street = input.Street;
+                user.HouseNumber = input.HouseNumber;
+                user.IsGuest = false;
+            });
 
         var updateResult = await userService.UpdateAsync(userInput);
 
-        Assert.AreEqual(userInput.Username, updateResult.Username);
         Assert.AreEqual(userInput.FirstName, updateResult.FirstName);
         Assert.AreEqual(userInput.LastName, updateResult.LastName);
         Assert.AreEqual(userToReturn.Email, updateResult.Email);
@@ -235,27 +236,5 @@ public class UserServiceTests
         Assert.AreEqual(userInput.Street, updateResult.Street);
         Assert.AreEqual(userInput.HouseNumber, updateResult.HouseNumber);
         Assert.AreEqual(userToReturn.IsGuest, updateResult.IsGuest);
-    }
-
-    [TestMethod]
-    public async Task GetUserEmailByUsername_ExistingUsername_ReturnsEmail()
-    {
-        var userToReturn = new User("username", "firstName", "lastName", "email", "country", "city", "postCode", "street", "houseNumber", false);
-
-        userRepositoryMock
-            .Setup(x => x.GetByUsernameAsync(userToReturn.Username))
-            .ReturnsAsync(userToReturn);
-
-        var email = await userService.GetUserEmailByUsernameAsync(userToReturn.Username);
-
-        Assert.AreEqual(userToReturn.Email, email);
-    }
-
-    [TestMethod]
-    public async Task GetUserEmailByUsername_NonExistingUsername_ReturnsEmptyString()
-    {
-        var email = await userService.GetUserEmailByUsernameAsync("username");
-
-        Assert.AreEqual(string.Empty, email);
     }
 }
