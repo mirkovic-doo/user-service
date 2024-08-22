@@ -20,11 +20,6 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         return await _mapper.SingleOrDefaultAsync<User>("WHERE email = ?", email);
     }
 
-    public async Task<User> GetByUsernameAsync(string username)
-    {
-        return await _mapper.SingleOrDefaultAsync<User>("WHERE username = ?", username);
-    }
-
     public async Task<User> GetByFirebaseIdAsync(string firebaseId)
     {
         return await _mapper.SingleOrDefaultAsync<User>("WHERE firebase_id = ?", firebaseId);

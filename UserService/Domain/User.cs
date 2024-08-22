@@ -7,7 +7,6 @@ public class User : Entity, IEntity
     public User() : base() { }
 
     public User(
-        string username,
         string firstName,
         string lastName,
         string email,
@@ -18,7 +17,6 @@ public class User : Entity, IEntity
         string houseNumber,
         bool isGuest) : base()
     {
-        Username = username;
         FirstName = firstName;
         LastName = lastName;
         Email = email;
@@ -31,7 +29,6 @@ public class User : Entity, IEntity
     }
 
     public string FirebaseId { get; set; }
-    public string Username { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
     public string Email { get; set; }

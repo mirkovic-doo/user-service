@@ -13,7 +13,6 @@ public class DbMappingProfile : Mappings
                 .ClusteringKey(u => u.FirebaseId)
                 .Column(u => u.Id, cm => cm.WithName("id"))
                 .Column(u => u.FirebaseId, cm => cm.WithName("firebase_id"))
-                .Column(u => u.Username, cm => cm.WithName("username"))
                 .Column(u => u.Email, cm => cm.WithName("email"))
                 .Column(u => u.FirstName, cm => cm.WithName("first_name"))
                 .Column(u => u.LastName, cm => cm.WithName("last_name"))

@@ -49,12 +49,4 @@ public class UserController : ControllerBase
         await userService.DeleteAsync();
         return Ok("User deleted successfully");
     }
-
-    [AllowAnonymous]
-    [HttpGet("email/{username}", Name = nameof(GetEmailByUsername))]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<IActionResult> GetEmailByUsername([FromRoute] string username)
-    {
-        return Ok(await userService.GetUserEmailByUsernameAsync(username));
-    }
 }

@@ -34,4 +34,15 @@ public class FirebaseAuthenticationProviderService : IAuthenticationProviderServ
 
         await firebaseAuth.SetCustomUserClaimsAsync(user.FirebaseId, claims);
     }
+
+    public async Task UpdateEmailAsync(User user, string newEmail)
+    {
+        var firebaseAuth = FirebaseAuth.GetAuth(firebaseApp);
+        var args = new UserRecordArgs
+        {
+            Uid = user.FirebaseId,
+            Email = newEmail
+        };
+        await firebaseAuth.UpdateUserAsync(args);
+    }
 }

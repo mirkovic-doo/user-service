@@ -6,4 +6,5 @@ public interface IAuthenticationProviderService
 {
     Task UpdateClaimsAsync(User user);
     Task DeleteProvidedUserAsync(User user);
+    Task UpdateEmailAsync(User user, string newEmail);
 }
