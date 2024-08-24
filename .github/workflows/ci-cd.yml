@@ -6,7 +6,7 @@ on:
       - develop
       - main
     tags:
-      - 'v*.*.*'
+      - '*.*.*'
   pull_request:
     branches:
       - develop
@@ -60,7 +60,7 @@ jobs:
     defaults:
       run:
         working-directory: ${{ env.working-directory }}
-    if: success() #&& github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
     
     steps:
       - uses: actions/checkout@v4
@@ -87,7 +87,7 @@ jobs:
     needs:
       - build
       - publish
-    if: success() #&& github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
     
     steps:
       - name: Checkout code
