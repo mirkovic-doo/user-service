@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+UserService/appsettings.Development.json
+/UserService/secrets
+/UserService/.idea/*
+*.DS_STORE
+UserServiceIntegrationTests/appsettings.Development.json
+/UserServiceIntegrationTests/secrets
