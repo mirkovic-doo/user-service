@@ -49,8 +49,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
 
       - name: Build Docker image
-        run: |
-          docker build -t bukiteasy/user-service:${{ env.VERSION }}.
+        run: docker build -t bukiteasy/user-service:${{ github.sha }} .
     
     outputs:
       VERSION: ${{ env.VERSION }}
