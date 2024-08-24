@@ -52,7 +52,7 @@ jobs:
         run: docker build -t bukiteasy/user-service:${{ github.sha }} .
     
     outputs:
-      VERSION: ${{ env.VERSION }}
+      VERSION: ${{ steps.get_version.outputs.VERSION }}
 
   publish:
     runs-on: ubuntu-latest
