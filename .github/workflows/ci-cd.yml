@@ -44,7 +44,7 @@ jobs:
       - name: Extract version from csproj
         id: get_version
         run: |
-          VERSION=$(grep '<AssemblyVersion>' UserService/UserService.csproj | sed -E 's/.*<AssemblyVersion>(.*)<\/AssemblyVersion>.*/\1/')
+          VERSION=$(grep '<AssemblyVersion>' UserService.csproj | sed -E 's/.*<AssemblyVersion>(.*)<\/AssemblyVersion>.*/\1/')
           echo "VERSION=${VERSION}" >> $GITHUB_ENV
         working-directory: ${{ env.working-directory }}
 
