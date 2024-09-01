@@ -5,6 +5,7 @@ using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 using UserService.Configuration;
 using UserService.Contracts.Providers;
 using UserService.Contracts.Repositories;
@@ -36,6 +37,9 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
+
+builder.Host.UseSerilog((context, loggerConfig) =>
+    loggerConfig.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddControllers().AddJsonOptions(options =>
 {
@@ -79,7 +83,7 @@ builder.Services.AddSwaggerGen();
 
 if (!string.IsNullOrWhiteSpace(builder.Configuration.GetSection("ElasticApm").GetValue<string>("ServerCert")))
 {
-    builder.Services.AddElasticApm();
+    builder.Services.AddAllElasticApm();
 }
 
 builder.Services.AddRouting(options =>
@@ -110,7 +114,8 @@ app.UseSwagger((opt) =>
     opt.RouteTemplate = "swagger/{documentName}/swagger.json";
 });
 app.UseSwaggerUI();
-
+app.UseMiddleware<RequestContextLoggingMiddleware>();
+app.UseSerilogRequestLogging();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 

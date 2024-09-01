@@ -32,6 +32,13 @@ public class UserController : ControllerBase
         return Ok(mapper.Map<UserResponse>(await userService.GetMeAsync()));
     }
 
+    [HttpGet("{id}", Name = nameof(GetById))]
+    [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
+    public async Task<IActionResult> GetById([FromRoute] Guid id)
+    {
+        return Ok(mapper.Map<UserResponse>(await userService.GetByIdAsync(id)));
+    }
+
     [HttpPut(Name = nameof(UpdateUser))]
     [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
     public async Task<IActionResult> UpdateUser([FromBody] UserRequest request)

@@ -8,4 +8,5 @@ public interface IUserService
     Task<User> GetMeAsync();
     Task DeleteAsync();
     Task<User> UpdateAsync(UserInput updateInput);
+    Task<User> GetByIdAsync(Guid id);
 }

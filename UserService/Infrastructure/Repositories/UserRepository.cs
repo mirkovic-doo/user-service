@@ -24,4 +24,9 @@ public class UserRepository : BaseRepository<User>, IUserRepository
     {
         return await _mapper.SingleOrDefaultAsync<User>("WHERE firebase_id = ?", firebaseId);
     }
+
+    public async Task<User> GetByIdAsync(Guid id)
+    {
+        return await _mapper.SingleOrDefaultAsync<User>("WHERE id = ?", id);
+    }
 }
